@@ -2,8 +2,18 @@
 using System;
 public class Garden : IGarden
 {
-    public List<Plant> plants = new List<Plant>();
-    public List<Tree> trees = new List<Tree>();
+    private List<Plant> plants = new List<Plant>();
+    private List<Tree> trees = new List<Tree>();
+    
+    public List<Tree> GetTrees()
+    {
+        return trees;
+    }
+
+    public List<Plant> GetPlants()
+    {
+        return plants;
+    }
 
     public void AddPlant(Plant plant)
     {
@@ -20,6 +30,11 @@ public class Garden : IGarden
         plants.Remove(plant);
     }
 
+    public void RemoveTree(Tree tree)
+    {
+        trees.Remove(tree);
+    }
+
     public void ShowTrees()
     {
         if (trees.Count == 0)
@@ -31,7 +46,7 @@ public class Garden : IGarden
         Console.WriteLine("\n=== Деревья в саду ===");
         for (int i = 0; i < trees.Count; i++)
         {
-            Console.WriteLine($"Дерево #{i + 1}:");
+            Console.WriteLine($"\nДерево #{i + 1}:");
             trees[i].Print();
             Console.WriteLine("---------------------");
         }
