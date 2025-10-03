@@ -25,17 +25,17 @@ public struct Height
 public class Tree : Plant
 {
     public TreeType sort { get; private set; }
-    public Height height { get; private set; }
+    public new Height height { get; private set; }
 
     public int Age => age;
 
-    public Tree() : base("Plant", 1, 0)
+    public Tree() : base("Plant", 1, 0, 0)
     {
         sort = TreeType.Неизвестный;
         height = new Height(1);
     }
 
-    public Tree(string kind, TreeType sort, int height, int age, int water) : base(kind, age, water)
+    public Tree(string kind, TreeType sort, int height, int age, int water) : base(kind, age, water, 1)
     {
         this.sort = (sort == TreeType.Дуб || sort == TreeType.Берёза || sort == TreeType.Клён || sort == TreeType.Ель) ? sort : TreeType.Неизвестный;
         this.height = new Height(height);
@@ -50,8 +50,9 @@ public class Tree : Plant
             {
                 Console.WriteLine("Можно собрать жёлуди");
                 Console.WriteLine("Сбор\n");
+                Console.WriteLine("Урожай собран");
             }
-            else Console.WriteLine("Дерево не готово к сбору урожая\n");
+            else Console.WriteLine("Дуб не готов к сбору урожая\n");
         }
 
         if (sort == TreeType.Берёза)
@@ -60,8 +61,9 @@ public class Tree : Plant
             {
                 Console.WriteLine("Можно собрать сок");
                 Console.WriteLine("Сбор\n");
+                Console.WriteLine("Урожай собран");
             }
-            else Console.WriteLine("Дерево не готово к сбору урожая\n");
+            else Console.WriteLine("Берёза не готова к сбору урожая\n");
         }
 
         if (sort == TreeType.Ель)
@@ -70,8 +72,9 @@ public class Tree : Plant
             {
                 Console.WriteLine("Можно собрать шишки");
                 Console.WriteLine("Сбор\n");
+                Console.WriteLine("Урожай собран");
             }
-            else Console.WriteLine("Дерево не готово к сбору урожая\n");
+            else Console.WriteLine("Ель не готова к сбору урожая\n");
         }
 
         if (sort == TreeType.Клён)
@@ -79,9 +82,10 @@ public class Tree : Plant
             if (Age >= 30 && Age <= 60)
             {
                 Console.WriteLine("Можно собрать сок");
-                Console.WriteLine("Сбор\n");
+                Console.WriteLine("Сбор");
+                Console.WriteLine("Урожай собран\n");
             }
-            else Console.WriteLine("Дерево не готово к сбору урожая\n");
+            else Console.WriteLine("Клён не готов к сбору урожая\n");
         }
     }
 
@@ -93,14 +97,14 @@ public class Tree : Plant
             return;
         }
 
-        if (index < 1 || index > garden.trees.Count)
+        if (index < 1 || index > garden.GetTrees().Count)
         {
             Console.WriteLine("Неверный номер дерева");
             return;
         }
 
-        var removed = garden.trees[index - 1];
-        garden.trees.RemoveAt(index - 1);
+        var removed = garden.GetTrees()[index - 1];
+        garden.GetTrees().RemoveAt(index - 1);
 
         garden.RemovePlant(removed);
 
@@ -115,20 +119,20 @@ public class Tree : Plant
             return;
         }
 
-        if (index < 1 || index > garden.trees.Count)
+        if (index < 1 || index > garden.GetTrees().Count)
         {
             Console.WriteLine("Неверный номер дерева");
             return;
         }
 
-        var t = garden.trees[index - 1];
+        var t = garden.GetTrees()[index - 1];
         t.water = 1;
         Console.WriteLine($"Дерево '{t.kind}' было полито.");
     }
 
     public void touch()
     {
-        string[] songs = new string[] { "DEUTSCHLAND (Rammstein)", "Touch (KATSEYE)", "Я РУССКИЙ (Шаман)" };
+        string[] songs = { "DEUTSCHLAND (Rammstein)", "Touch (KATSEYE)", "Я РУССКИЙ (Шаман)" };
         var rand = new Random();
         var song = songs[rand.Next(0, 2)];
         Console.WriteLine($"Вы трогаете ваши деревья под песню \"{song}\"");
@@ -136,11 +140,10 @@ public class Tree : Plant
 
     public override void Print()
     {
-        Console.WriteLine("Дерево");
-        base.Print();
-        Console.WriteLine($"Тип дерева: {sort}");
+        Console.WriteLine($"Вид : {kind}");
+        Console.WriteLine($"Возраст : {Age} г.");
         Console.WriteLine($"Рост дерева: {height}");
-        if (water == 1) Console.WriteLine($"Полито дерево? Да");
-        else Console.WriteLine($"Полито дерево? Нет");
+        Console.WriteLine($"Тип дерева: {sort}");
+        Console.WriteLine($"Полито дерево? {(water == 1 ? "Да" : "Нет")}");
     }
 }
